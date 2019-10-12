@@ -1,4 +1,5 @@
 # SFSegmentView
+<<<<<<< HEAD
 
 [![CI Status](https://img.shields.io/travis/hsfiOSGitHub/SFSegmentView.svg?style=flat)](https://travis-ci.org/hsfiOSGitHub/SFSegmentView)
 [![Version](https://img.shields.io/cocoapods/v/SFSegmentView.svg?style=flat)](https://cocoapods.org/pods/SFSegmentView)
@@ -27,3 +28,6 @@ hsfiOSGitHub, hsf_ios@sina.com
 ## License
 
 SFSegmentView is available under the MIT license. See the LICENSE file for more info.
+=======
+SFSegmentView选项卡
+>>>>>>> 5a1968128df2bb91246fd875bf40c84c35b03eec
