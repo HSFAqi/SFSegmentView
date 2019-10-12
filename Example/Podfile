@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '8.0'
+
+target 'SFSegmentView_Example' do
+  pod 'SFSegmentView', :path => '../'
+
+  target 'SFSegmentView_Tests' do
+    inherit! :search_paths
+
+    pod 'FBSnapshotTestCase'
+  end
+end
