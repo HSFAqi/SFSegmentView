@@ -62,11 +62,11 @@
 		688E6272096ED5FA590B347B /* Pods-SFSegmentView_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SFSegmentView_Example.release.xcconfig"; path = "Target Support Files/Pods-SFSegmentView_Example/Pods-SFSegmentView_Example.release.xcconfig"; sourceTree = "<group>"; };
 		6A3AA28604B6B6C246021015 /* Pods-SFSegmentView_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SFSegmentView_Tests.release.xcconfig"; path = "Target Support Files/Pods-SFSegmentView_Tests/Pods-SFSegmentView_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		7E503046C713F1E50E6EF255 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		7E503046C713F1E50E6EF255 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		950A537B6617330F9D4C4F4B /* Pods_SFSegmentView_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SFSegmentView_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		ED5303AB5BBE35A3F03D8921 /* SFSegmentView.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = SFSegmentView.podspec; path = ../SFSegmentView.podspec; sourceTree = "<group>"; };
-		EFD3864091861B86A49311B3 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		ED5303AB5BBE35A3F03D8921 /* SFSegmentView.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SFSegmentView.podspec; path = ../SFSegmentView.podspec; sourceTree = "<group>"; };
+		EFD3864091861B86A49311B3 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,7 +193,6 @@
 				5FEEB9A96D7603E3E6FEE303 /* Pods-SFSegmentView_Tests.debug.xcconfig */,
 				6A3AA28604B6B6C246021015 /* Pods-SFSegmentView_Tests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -259,6 +258,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);

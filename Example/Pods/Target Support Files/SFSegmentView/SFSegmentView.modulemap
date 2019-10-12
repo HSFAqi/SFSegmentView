@@ -1,0 +1,6 @@
+framework module SFSegmentView {
+  umbrella header "SFSegmentView-umbrella.h"
+
+  export *
+  module * { export * }
+}

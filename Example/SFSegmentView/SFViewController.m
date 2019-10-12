@@ -8,6 +8,8 @@
 
 #import "SFViewController.h"
 
+//#import "SFTestView.h"
+
 @interface SFViewController ()
 
 @end
@@ -17,7 +19,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+//    SFTestView *view = [[SFTestView alloc]initWithFrame:CGRectMake(100, 100, 100, 100)];
+//    [self.view addSubview:view];
 }
 
 - (void)didReceiveMemoryWarning
