@@ -8,7 +8,7 @@
 
 #import "SFViewController.h"
 
-//#import "SFTestView.h"
+#import <SFSegmentView/SFSegmentView.h>
 
 @interface SFViewController ()
 
@@ -19,8 +19,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    SFTestView *view = [[SFTestView alloc]initWithFrame:CGRectMake(100, 100, 100, 100)];
-//    [self.view addSubview:view];
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationItem.title = @"测试";
+    self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    SFSegmentView *segmentView = [SFSegmentView segmentViewWithConfig:nil frame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
+    segmentView.backgroundColor = [UIColor whiteColor];
+    segmentView.contents = @[@"签约项目", @"护理项目", @"其他项目"];
+    [self.view addSubview:segmentView];
 }
 
 - (void)didReceiveMemoryWarning
