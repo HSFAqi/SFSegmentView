@@ -61,8 +61,8 @@
         item.selected = NO;
         item.tag = i;
         [item addTarget:self action:@selector(itemAction:) forControlEvents:UIControlEventTouchUpInside];
-        // indicator
         if (i == defaultIndex) {
+            // indicator
             [self createCustomIndicatorStyleWithItem:item];
             // 默认选中的回调
             if (self.didSelectedItemBlock) {
@@ -138,6 +138,7 @@
         
         case SFSegmentIndicatorStyleArrow:
             [self arrowStyleWithItem:item];
+            break;
             
         case SFSegmentIndicatorStyleDot:
             [self dotStyleWithItem:item];
@@ -169,7 +170,6 @@
                 make.top.equalTo(self);
                 break;
             default:
-                make.bottom.equalTo(self);
                 break;
         }
         make.centerX.equalTo(item_weak);
@@ -200,7 +200,6 @@
                 make.top.equalTo(self);
                 break;
             default:
-                make.bottom.equalTo(self);
                 break;
         }
         make.centerX.equalTo(item_weak);
@@ -228,10 +227,6 @@
             break;
         
         default:
-            // 正三角
-            point1 = CGPointMake(0, self.config.arrowSize.height);
-            point2 = CGPointMake(self.config.arrowSize.width/2, 0);
-            point3 = CGPointMake(self.config.arrowSize.width, self.config.arrowSize.height);
             break;
     }
     UIBezierPath *path = [UIBezierPath bezierPath];
@@ -264,7 +259,6 @@
                 make.top.equalTo(self);
                 break;
             default:
-                make.bottom.equalTo(self);
                 break;
         }
         make.centerX.equalTo(item_weak);
@@ -300,6 +294,7 @@
         self.didSelectedItemBlock(sender.tag);
     }
 }
+// 移动过程中
 - (void)movingActionWithItem:(UIButton *)sender{
     UIView *indicator;
     switch (self.config.indicatorStyle) {
@@ -326,6 +321,7 @@
         indicator.center = CGPointMake(sender.center.x, centerY);
     }
 }
+// 移动结束时
 - (void)movedActionWithItem:(UIButton *)sender{
     self.item_cur.selected = NO;
     sender.selected = YES;

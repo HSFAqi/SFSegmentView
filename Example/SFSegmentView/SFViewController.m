@@ -22,7 +22,9 @@
     self.navigationController.navigationBar.translucent = NO;
     self.navigationItem.title = @"测试";
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    SFSegmentView *segmentView = [SFSegmentView segmentViewWithConfig:nil frame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
+    SFSegmentConfig *config = [SFSegmentConfig defaultConfig];
+    config.indicatorStyle = SFSegmentIndicatorStyleDot;
+    SFSegmentView *segmentView = [SFSegmentView segmentViewWithConfig:config frame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
     segmentView.backgroundColor = [UIColor whiteColor];
     segmentView.contents = @[@"签约项目", @"护理项目", @"其他项目"];
     [self.view addSubview:segmentView];

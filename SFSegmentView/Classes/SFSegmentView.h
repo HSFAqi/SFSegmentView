@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
+#import "SFSegmentConfig.h"
 
-@class SFSegmentConfig;
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SFSegmentView : UIView
 
