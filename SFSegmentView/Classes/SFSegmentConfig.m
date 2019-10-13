@@ -15,7 +15,7 @@
     
     config.contentStyle = SFSegmentContentStyleFont;
     config.indicatorDir = SFSegmentIndicatorDirBottom;
-    config.indicatorStyle = SFSegmentIndicatorStyleLine;
+    config.indicatorStyle = SFSegmentIndicatorStyleNone;
     config.defaultIndex = 0;
     config.isAnimated = NO;
     
@@ -45,27 +45,31 @@
     
     // 指示器样式
     switch (config.indicatorStyle) {
+        case SFSegmentIndicatorStyleNone:
+            // 样式一：none
+            break;
+            
         case SFSegmentIndicatorStyleLine:
-            // 样式一：line
+            // 样式二：line
             config.lineColor = [UIColor redColor];
             config.lineSize = CGSizeMake(30, 2);
             break;
             
         case SFSegmentIndicatorStyleBgColor:
-            // 样式二：bgColor
+            // 样式三：bgColor
             config.fontColor_sel = [UIColor whiteColor];
             config.itemBgColor_nor = [UIColor clearColor];
             config.itemBgColor_sel = [UIColor redColor];
             break;
             
         case SFSegmentIndicatorStyleArrow:
-            // 样式三：arrow
+            // 样式四：arrow
             config.arrowColor = [UIColor redColor];
             config.arrowSize = CGSizeMake(8, 8*tan(M_PI/3));
             break;
             
         case SFSegmentIndicatorStyleDot:
-            // 样式四：dot
+            // 样式五：dot
             config.dotColor = [UIColor redColor];
             config.dotSize = CGSizeMake(6, 6);
             break;

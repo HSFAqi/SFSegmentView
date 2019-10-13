@@ -14,7 +14,7 @@
 
 @interface SFSegmentView ()
 
-@property (nonatomic,strong) UIButton *btn_cur;
+@property (nonatomic,strong) UIButton *item_cur;
 @property (nonatomic,strong) SFSegmentConfig *config;
 
 @property (nonatomic,strong) UIView *line;
@@ -44,7 +44,7 @@
     if (self.subviews.count > 0) {
         [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     }
-    // 添加btns
+    // 添加items
     CGFloat x = 0.f;
     CGFloat y = 0.f;
     CGFloat w = self.frame.size.width/contents.count;
@@ -57,16 +57,16 @@
         x = w*i;
         CGRect rect = CGRectMake(x, y, w, h);
         NSString *content = contents[i];
-        UIButton *btn = [self createCustomItemWithFrame:rect content:content];
-        btn.selected = NO;
-        btn.tag = i;
-        [btn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
+        UIButton *item = [self createCustomItemWithFrame:rect content:content];
+        item.selected = NO;
+        item.tag = i;
+        [item addTarget:self action:@selector(itemAction:) forControlEvents:UIControlEventTouchUpInside];
         // indicator
         if (i == defaultIndex) {
-            [self createCustomSelectStyleWithBtn:btn];
+            [self createCustomIndicatorStyleWithItem:item];
             // 默认选中的回调
             if (self.didSelectedItemBlock) {
-                self.didSelectedItemBlock(btn.tag);
+                self.didSelectedItemBlock(item.tag);
             }
         }
         if (self.config.isHaveSeparator && (i != 0)) {
@@ -75,38 +75,38 @@
         }
     }
 }
-#pragma mark btn
+#pragma mark item
 - (UIButton *)createCustomItemWithFrame:(CGRect)frame content:(NSString *)content{
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self addSubview:btn];
-    btn.backgroundColor = [UIColor clearColor];
+    UIButton *item = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self addSubview:item];
+    item.backgroundColor = [UIColor clearColor];
     switch (self.config.contentStyle) {
         case SFSegmentContentStyleFont:
-            [btn setTitle:content forState:UIControlStateNormal];
-            btn.titleLabel.font = [UIFont systemFontOfSize:self.config.fontSize];
-            [btn setTitleColor:self.config.fontColor_nor forState:UIControlStateNormal];
-            [btn setTitleColor:self.config.fontColor_sel forState:UIControlStateSelected];
+            [item setTitle:content forState:UIControlStateNormal];
+            item.titleLabel.font = [UIFont systemFontOfSize:self.config.fontSize];
+            [item setTitleColor:self.config.fontColor_nor forState:UIControlStateNormal];
+            [item setTitleColor:self.config.fontColor_sel forState:UIControlStateSelected];
             break;
             
         case SFSegmentContentStyleImage:
-            [btn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",content,self.config.image_nor]] forState:UIControlStateNormal];
-            [btn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",content,self.config.image_sel]] forState:UIControlStateSelected];
+            [item setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",content,self.config.image_nor]] forState:UIControlStateNormal];
+            [item setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",content,self.config.image_sel]] forState:UIControlStateSelected];
             break;
             
         default:
             break;
     }
     // 布局
-    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+    [item mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self).offset(frame.origin.y);
         make.left.equalTo(self).offset(frame.origin.x);
         make.size.mas_equalTo(frame.size);
     }];
     if (self.config.indicatorStyle == SFSegmentIndicatorStyleBgColor) {
-        [btn setBackgroundImage:[self imageWithColor:self.config.itemBgColor_nor] forState:UIControlStateNormal];
-        [btn setBackgroundImage:[self imageWithColor:self.config.itemBgColor_sel] forState:UIControlStateSelected];
+        [item setBackgroundImage:[self imageWithColor:self.config.itemBgColor_nor] forState:UIControlStateNormal];
+        [item setBackgroundImage:[self imageWithColor:self.config.itemBgColor_sel] forState:UIControlStateSelected];
     }
-    return btn;
+    return item;
 }
 
 #pragma mark separator
@@ -121,36 +121,45 @@
     }];
 }
 
-#pragma mark style
-- (void)createCustomSelectStyleWithBtn:(UIButton *)btn{
+#pragma mark indicatorStyle
+- (void)createCustomIndicatorStyleWithItem:(UIButton *)item{
     switch (self.config.indicatorStyle) {
+        case SFSegmentIndicatorStyleNone:
+            [self noneStyleWithItem:item];
+            break;
+            
         case SFSegmentIndicatorStyleLine:
-            [self lineStyleWithBtn:btn];
+            [self lineStyleWithItem:item];
             break;
         
         case SFSegmentIndicatorStyleBgColor:
-            [self bgColorStyleWithBtn:btn];
+            [self bgColorStyleWithItem:item];
             break;
         
         case SFSegmentIndicatorStyleArrow:
-            [self arrowStyleWithBtn:btn];
+            [self arrowStyleWithItem:item];
             
         case SFSegmentIndicatorStyleDot:
-            [self dotStyleWithBtn:btn];
+            [self dotStyleWithItem:item];
             break;
         default:
             break;
     }
 }
-// 样式一：line
-- (void)lineStyleWithBtn:(UIButton *)btn{
-    btn.selected = YES;
-    self.btn_cur = btn;
+// 样式一：none
+- (void)noneStyleWithItem:(UIButton *)item{
+    item.selected = YES;
+    self.item_cur = item;
+}
+// 样式二：line
+- (void)lineStyleWithItem:(UIButton *)item{
+    item.selected = YES;
+    self.item_cur = item;
     // line
     self.line = [[UIView alloc]init];
     self.line.backgroundColor = self.config.lineColor;
     [self addSubview:self.line];
-    __weak UIButton *btn_weak = btn;
+    __weak UIButton *item_weak = item;
     [self.line mas_makeConstraints:^(MASConstraintMaker *make) {
         switch (self.config.indicatorDir) {
             case SFSegmentIndicatorDirBottom:
@@ -163,25 +172,25 @@
                 make.bottom.equalTo(self);
                 break;
         }
-        make.centerX.equalTo(btn_weak);
+        make.centerX.equalTo(item_weak);
         make.size.mas_equalTo(self.config.lineSize);
     }];
 }
-// 样式二：bgColor
-- (void)bgColorStyleWithBtn:(UIButton *)btn{
-    btn.selected = YES;
-    self.btn_cur = btn;
+// 样式三：bgColor
+- (void)bgColorStyleWithItem:(UIButton *)item{
+    item.selected = YES;
+    self.item_cur = item;
 }
-// 样式三：arrow
-- (void)arrowStyleWithBtn:(UIButton *)btn{
-    btn.selected = YES;
-    self.btn_cur = btn;
+// 样式四：arrow
+- (void)arrowStyleWithItem:(UIButton *)item{
+    item.selected = YES;
+    self.item_cur = item;
     // arrow
     self.arrow = [[UIView alloc]init];
     self.arrow.backgroundColor = self.config.arrowColor;
     [self addSubview:self.arrow];
     [self drawArrow];
-    __weak UIButton *btn_weak = btn;
+    __weak UIButton *item_weak = item;
     [self.arrow mas_makeConstraints:^(MASConstraintMaker *make) {
         switch (self.config.indicatorDir) {
             case SFSegmentIndicatorDirBottom:
@@ -194,7 +203,7 @@
                 make.bottom.equalTo(self);
                 break;
         }
-        make.centerX.equalTo(btn_weak);
+        make.centerX.equalTo(item_weak);
         make.size.mas_equalTo(self.config.arrowSize);
     }];
 }
@@ -236,16 +245,16 @@
     maskLayer.path = path.CGPath;
     self.arrow.layer.mask = maskLayer;
 }
-// 样式四：dot
-- (void)dotStyleWithBtn:(UIButton *)btn{
-    btn.selected = YES;
-    self.btn_cur = btn;
+// 样式五：dot
+- (void)dotStyleWithItem:(UIButton *)item{
+    item.selected = YES;
+    self.item_cur = item;
     // dot
     self.dot = [[UIView alloc]init];
     self.dot.backgroundColor = self.config.dotColor;
     [self addSubview:self.dot];
     [self drawDot];
-    __weak UIButton *btn_weak = btn;
+    __weak UIButton *item_weak = item;
     [self.dot mas_makeConstraints:^(MASConstraintMaker *make) {
         switch (self.config.indicatorDir) {
             case SFSegmentIndicatorDirBottom:
@@ -258,7 +267,7 @@
                 make.bottom.equalTo(self);
                 break;
         }
-        make.centerX.equalTo(btn_weak);
+        make.centerX.equalTo(item_weak);
         make.size.mas_equalTo(self.config.dotSize);
     }];
 }
@@ -273,25 +282,25 @@
 }
 
 #pragma mark Actions
-- (void)btnAction:(UIButton *)sender{
+- (void)itemAction:(UIButton *)sender{
     if (self.config.isAnimated) {
         typeof(self) weakSelf = self;
-        __weak UIButton *weakBtn = sender;
+        __weak UIButton *weakItem = sender;
         [UIView animateWithDuration:0.3 animations:^{
-            [weakSelf movingActionWithBtn:weakBtn];
+            [weakSelf movingActionWithItem:weakItem];
         }completion:^(BOOL finished) {
-            [weakSelf movedActionWithBtn:weakBtn];
+            [weakSelf movedActionWithItem:weakItem];
         }];
     }else{
-        [self movingActionWithBtn:sender];
-        [self movedActionWithBtn:sender];
+        [self movingActionWithItem:sender];
+        [self movedActionWithItem:sender];
     }
     // 回调
     if (self.didSelectedItemBlock) {
         self.didSelectedItemBlock(sender.tag);
     }
 }
-- (void)movingActionWithBtn:(UIButton *)sender{
+- (void)movingActionWithItem:(UIButton *)sender{
     UIView *indicator;
     switch (self.config.indicatorStyle) {
         case SFSegmentIndicatorStyleLine:
@@ -317,38 +326,38 @@
         indicator.center = CGPointMake(sender.center.x, centerY);
     }
 }
-- (void)movedActionWithBtn:(UIButton *)sender{
-    self.btn_cur.selected = NO;
+- (void)movedActionWithItem:(UIButton *)sender{
+    self.item_cur.selected = NO;
     sender.selected = YES;
-    self.btn_cur = sender;
+    self.item_cur = sender;
 }
 
 #pragma mark move action
 // 向前移动
 - (void)moveForwar{
-    NSInteger curIndx = self.btn_cur.tag;
+    NSInteger curIndx = self.item_cur.tag;
     if (curIndx == self.contents.count-1) {
         return;
     }
     NSInteger forwardIndex = curIndx++;
-    UIButton *btn = [self viewWithTag:forwardIndex];
-    [self btnAction:btn];
+    UIButton *item = [self viewWithTag:forwardIndex];
+    [self itemAction:item];
 }
 // 向后移动
 - (void)moveBackward{
-    NSInteger curIndx = self.btn_cur.tag;
+    NSInteger curIndx = self.item_cur.tag;
     if (curIndx == 0) {
         return;
     }
     NSInteger backwardIndex = curIndx--;
-    UIButton *btn = [self viewWithTag:backwardIndex];
-    [self btnAction:btn];
+    UIButton *item = [self viewWithTag:backwardIndex];
+    [self itemAction:item];
 }
 // 移动到指定位置
 - (void)moveTo:(NSInteger)index{
     if (index >= 0 && index <= self.contents.count-1) {
-        UIButton *btn = [self viewWithTag:index];
-        [self btnAction:btn];
+        UIButton *item = [self viewWithTag:index];
+        [self itemAction:item];
     }
 }
 
