@@ -27,7 +27,7 @@ typedef NS_ENUM(NSInteger, SFSegmentIndicatorDir) {
 typedef NS_ENUM(NSInteger, SFSegmentIndicatorStyle) {
     SFSegmentIndicatorStyleNone = 0,
     SFSegmentIndicatorStyleLine,
-    SFSegmentIndicatorStyleBgColor,
+    SFSegmentIndicatorStyleSquare,
     SFSegmentIndicatorStyleArrow,
     SFSegmentIndicatorStyleDot
 };
@@ -72,9 +72,10 @@ typedef NS_ENUM(NSInteger, SFSegmentIndicatorStyle) {
 // 样式二：line
 @property (nonatomic,strong) UIColor *lineColor;
 @property (nonatomic,assign) CGSize lineSize;
-// 样式三：bgColor
-@property (nonatomic,strong) UIColor *itemBgColor_nor;
-@property (nonatomic,strong) UIColor *itemBgColor_sel;
+// 样式三：square
+@property (nonatomic,strong) UIColor *squareColor;
+@property (nonatomic,assign) UIEdgeInsets squareEdgeInsert;
+@property (nonatomic,assign) CGFloat squareCornerRadius;
 // 样式四：arrow
 @property (nonatomic,strong) UIColor *arrowColor;
 @property (nonatomic,assign) CGSize arrowSize;

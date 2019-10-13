@@ -22,7 +22,7 @@
     
     /* ----------------分割线（默认值）---------------- */
     config.isHaveSeparator = NO;
-    config.separatorColor = [UIColor lightGrayColor];
+    config.separatorColor = [UIColor colorWithRed:197/255.f green:197/255.f blue:201/255.f alpha:1];
     config.separatorHeight = 30;
     
     
@@ -45,9 +45,10 @@
     config.lineColor = [UIColor redColor];
     config.lineSize = CGSizeMake(30, 2);
     
-    // 样式三：bgColor
-    config.itemBgColor_nor = [UIColor clearColor];
-    config.itemBgColor_sel = [UIColor orangeColor];
+    // 样式三：square
+    config.squareColor = [UIColor colorWithRed:238/255.f green:238/255.f blue:238/255.f alpha:1];
+    config.squareEdgeInsert = UIEdgeInsetsMake(5, 10, 5, 10);
+    config.squareCornerRadius = 4;
     
     // 样式四：arrow
     config.arrowColor = [UIColor redColor];

@@ -10,6 +10,7 @@
 
 #import "SFSegmentConfig.h"
 
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SFSegmentView : UIView
@@ -23,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /* move action */
 // 向前移动
-- (void)moveForwar;
+- (void)moveForward;
 // 向后移动
 - (void)moveBackward;
 // 移动到指定位置

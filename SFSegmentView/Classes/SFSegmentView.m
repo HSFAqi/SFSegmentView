@@ -11,6 +11,7 @@
 #import <Masonry/Masonry.h>
 #import "SFSegmentConfig.h"
 #define kSeparatorWidth 1
+#define kTagAdding 100
 
 @interface SFSegmentView ()
 
@@ -18,12 +19,18 @@
 @property (nonatomic,strong) SFSegmentConfig *config;
 
 @property (nonatomic,strong) UIView *line;
+@property (nonatomic,strong) UIView *square;
 @property (nonatomic,strong) UIView *arrow;
 @property (nonatomic,strong) UIView *dot;
 
 @end
 
 @implementation SFSegmentView
+
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    
+}
 
 #pragma mark initializer
 - (instancetype)initWithConfig:(nullable SFSegmentConfig *)config frame:(CGRect)frame{
@@ -59,14 +66,15 @@
         NSString *content = contents[i];
         UIButton *item = [self createCustomItemWithFrame:rect content:content];
         item.selected = NO;
-        item.tag = i;
+        [item setTag:i+kTagAdding];
         [item addTarget:self action:@selector(itemAction:) forControlEvents:UIControlEventTouchUpInside];
         if (i == defaultIndex) {
+            self.item_cur = item;
             // indicator
             [self createCustomIndicatorStyleWithItem:item];
             // 默认选中的回调
             if (self.didSelectedItemBlock) {
-                self.didSelectedItemBlock(item.tag);
+                self.didSelectedItemBlock(item.tag-kTagAdding);
             }
         }
         if (self.config.isHaveSeparator && (i != 0)) {
@@ -102,10 +110,6 @@
         make.left.equalTo(self).offset(frame.origin.x);
         make.size.mas_equalTo(frame.size);
     }];
-    if (self.config.indicatorStyle == SFSegmentIndicatorStyleBgColor) {
-        [item setBackgroundImage:[self imageWithColor:self.config.itemBgColor_nor] forState:UIControlStateNormal];
-        [item setBackgroundImage:[self imageWithColor:self.config.itemBgColor_sel] forState:UIControlStateSelected];
-    }
     return item;
 }
 
@@ -132,8 +136,8 @@
             [self lineStyleWithItem:item];
             break;
         
-        case SFSegmentIndicatorStyleBgColor:
-            [self bgColorStyleWithItem:item];
+        case SFSegmentIndicatorStyleSquare:
+            [self squareStyleWithItem:item];
             break;
         
         case SFSegmentIndicatorStyleArrow:
@@ -176,10 +180,26 @@
         make.size.mas_equalTo(self.config.lineSize);
     }];
 }
-// 样式三：bgColor
-- (void)bgColorStyleWithItem:(UIButton *)item{
+// 样式三：square
+- (void)squareStyleWithItem:(UIButton *)item{
     item.selected = YES;
     self.item_cur = item;
+    //square
+    self.square = [[UIView alloc]init];
+    self.square.backgroundColor = self.config.squareColor;
+    [self addSubview:self.square];
+    [self sendSubviewToBack:self.square];
+    if (self.config.squareCornerRadius > 0) {
+        self.square.layer.masksToBounds = YES;
+        self.square.layer.cornerRadius = self.config.squareCornerRadius;
+    }
+    __weak UIButton *item_weak = item;
+    [self.square mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(item_weak).offset(self.config.squareEdgeInsert.top);
+        make.left.equalTo(item_weak).offset(self.config.squareEdgeInsert.left);
+        make.bottom.equalTo(item_weak).offset(-self.config.squareEdgeInsert.bottom);
+        make.right.equalTo(item_weak).offset(-self.config.squareEdgeInsert.right);
+    }];
 }
 // 样式四：arrow
 - (void)arrowStyleWithItem:(UIButton *)item{
@@ -291,7 +311,7 @@
     }
     // 回调
     if (self.didSelectedItemBlock) {
-        self.didSelectedItemBlock(sender.tag);
+        self.didSelectedItemBlock(sender.tag-kTagAdding);
     }
 }
 // 移动过程中
@@ -302,8 +322,8 @@
             indicator = self.line;
             break;
         
-        case SFSegmentIndicatorStyleBgColor:
-            //nothing
+        case SFSegmentIndicatorStyleSquare:
+            indicator = self.square;
             break;
         
         case SFSegmentIndicatorStyleArrow:
@@ -330,29 +350,28 @@
 
 #pragma mark move action
 // 向前移动
-- (void)moveForwar{
+- (void)moveForward{
     NSInteger curIndx = self.item_cur.tag;
-    if (curIndx == self.contents.count-1) {
+    if (curIndx == self.contents.count-1+kTagAdding) {
         return;
     }
-    NSInteger forwardIndex = curIndx++;
-    UIButton *item = [self viewWithTag:forwardIndex];
+    UIButton *item = [self viewWithTag:(curIndx+1)];
     [self itemAction:item];
 }
 // 向后移动
 - (void)moveBackward{
     NSInteger curIndx = self.item_cur.tag;
-    if (curIndx == 0) {
+    if (curIndx == kTagAdding) {
         return;
     }
-    NSInteger backwardIndex = curIndx--;
-    UIButton *item = [self viewWithTag:backwardIndex];
+    UIButton *item = [self viewWithTag:(curIndx-1)];
     [self itemAction:item];
 }
 // 移动到指定位置
 - (void)moveTo:(NSInteger)index{
     if (index >= 0 && index <= self.contents.count-1) {
-        UIButton *item = [self viewWithTag:index];
+        NSInteger userfulIndex = index + kTagAdding;
+        UIButton *item = [self viewWithTag:userfulIndex];
         [self itemAction:item];
     }
 }
