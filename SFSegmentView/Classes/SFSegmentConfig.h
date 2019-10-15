@@ -13,8 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 // 内容样式
 typedef NS_ENUM(NSInteger, SFSegmentContentStyle) {
-    SFSegmentContentStyleFont = 0, // 纯文本
-    SFSegmentContentStyleImage // 图片
+    SFSegmentContentStyleFont = 0,  // 纯文本
+    SFSegmentContentStyleImage,     // 图片
+    SFSegmentContentStyleIcon       // icon（使用tintColor）
 };
 
 // 指示器方向
@@ -64,6 +65,11 @@ typedef NS_ENUM(NSInteger, SFSegmentIndicatorStyle) {
  */
 @property (nonatomic,strong) NSString *image_nor;
 @property (nonatomic,strong) NSString *image_sel;
+/**
+ * 样式三：icon（使用tintcolor）
+ */
+@property (nonatomic,strong) UIColor *imageTintColor_nor;
+@property (nonatomic,strong) UIColor *imageTintColor_sel;
 
 
 //-------------------------

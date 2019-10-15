@@ -36,6 +36,10 @@
     config.image_nor = @"_nor";
     config.image_sel = @"_sel";
     
+    // 样式三：icon
+    config.imageTintColor_nor = [UIColor lightGrayColor];
+    config.imageTintColor_sel = [UIColor blueColor];
+    
     
     
     /* ----------------指示器样式（默认值）---------------- */

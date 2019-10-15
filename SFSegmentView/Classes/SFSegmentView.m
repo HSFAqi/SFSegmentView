@@ -16,7 +16,6 @@
 @interface SFSegmentView ()
 
 @property (nonatomic,strong) UIButton *item_cur;
-@property (nonatomic,strong) SFSegmentConfig *config;
 
 @property (nonatomic,strong) UIView *line;
 @property (nonatomic,strong) UIView *square;
@@ -27,10 +26,6 @@
 
 @implementation SFSegmentView
 
-- (void)layoutSubviews{
-    [super layoutSubviews];
-    
-}
 
 #pragma mark initializer
 - (instancetype)initWithConfig:(nullable SFSegmentConfig *)config frame:(CGRect)frame{
@@ -69,6 +64,10 @@
         [item setTag:i+kTagAdding];
         [item addTarget:self action:@selector(itemAction:) forControlEvents:UIControlEventTouchUpInside];
         if (i == defaultIndex) {
+            item.selected = YES;
+            if (self.config.contentStyle == SFSegmentContentStyleIcon) {
+                item.tintColor = self.config.imageTintColor_sel;
+            }
             self.item_cur = item;
             // indicator
             [self createCustomIndicatorStyleWithItem:item];
@@ -99,6 +98,17 @@
         case SFSegmentContentStyleImage:
             [item setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",content,self.config.image_nor]] forState:UIControlStateNormal];
             [item setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",content,self.config.image_sel]] forState:UIControlStateSelected];
+            break;
+            
+        case SFSegmentContentStyleIcon:
+            if (@available(iOS 13.0, *)) {
+                [item setImage:[[UIImage imageNamed:content] imageWithTintColor:self.config.imageTintColor_nor] forState:UIControlStateNormal];
+                [item setImage:[[UIImage imageNamed:content] imageWithTintColor:self.config.imageTintColor_sel] forState:UIControlStateSelected];
+            } else {
+                UIImage *image = [[UIImage imageNamed:content] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                [item setImage:image forState:UIControlStateNormal];
+                [item setImage:image forState:UIControlStateSelected];
+            }
             break;
             
         default:
@@ -153,14 +163,10 @@
 }
 // 样式一：none
 - (void)noneStyleWithItem:(UIButton *)item{
-    item.selected = YES;
-    self.item_cur = item;
+    
 }
 // 样式二：line
 - (void)lineStyleWithItem:(UIButton *)item{
-    item.selected = YES;
-    self.item_cur = item;
-    // line
     self.line = [[UIView alloc]init];
     self.line.backgroundColor = self.config.lineColor;
     [self addSubview:self.line];
@@ -182,9 +188,6 @@
 }
 // 样式三：square
 - (void)squareStyleWithItem:(UIButton *)item{
-    item.selected = YES;
-    self.item_cur = item;
-    //square
     self.square = [[UIView alloc]init];
     self.square.backgroundColor = self.config.squareColor;
     [self addSubview:self.square];
@@ -203,9 +206,6 @@
 }
 // 样式四：arrow
 - (void)arrowStyleWithItem:(UIButton *)item{
-    item.selected = YES;
-    self.item_cur = item;
-    // arrow
     self.arrow = [[UIView alloc]init];
     self.arrow.backgroundColor = self.config.arrowColor;
     [self addSubview:self.arrow];
@@ -262,9 +262,6 @@
 }
 // 样式五：dot
 - (void)dotStyleWithItem:(UIButton *)item{
-    item.selected = YES;
-    self.item_cur = item;
-    // dot
     self.dot = [[UIView alloc]init];
     self.dot.backgroundColor = self.config.dotColor;
     [self addSubview:self.dot];
@@ -344,7 +341,13 @@
 // 移动结束时
 - (void)movedActionWithItem:(UIButton *)sender{
     self.item_cur.selected = NO;
+    if (self.config.contentStyle == SFSegmentContentStyleIcon) {
+        self.item_cur.tintColor = self.config.imageTintColor_nor;
+    }
     sender.selected = YES;
+    if (self.config.contentStyle == SFSegmentContentStyleIcon) {
+        sender.tintColor = self.config.imageTintColor_sel;
+    }
     self.item_cur = sender;
 }
 
@@ -377,20 +380,17 @@
 }
 
 
-#pragma mark tools
-//颜色生成图片方法
-- (UIImage *)imageWithColor:(UIColor *)color {
-    return [self imageWithColor:color size:CGSizeMake(1, 1)];
+
+
+#pragma mark lazy load
+- (SFSegmentConfig *)config{
+    if (!_config) {
+        _config = [SFSegmentConfig defaultConfig];
+    }
+    return _config;
 }
-- (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size {
-    CGRect rect = CGRectMake(0, 0, size.width, size.height);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context,color.CGColor);
-    CGContextFillRect(context, rect);
-    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return img;
-}
+
+
+
 
 @end

@@ -11,6 +11,7 @@
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 ## Requirements
+依赖：Masonry 
 
 ## Installation
 
@@ -21,13 +22,5 @@ it, simply add the following line to your Podfile:
 pod 'SFSegmentView'
 ```
 
-## Author
 
-hsfiOSGitHub, hsf_ios@sina.com
 
-## License
-
-SFSegmentView is available under the MIT license. See the LICENSE file for more info.
-=======
-SFSegmentView选项卡
->>>>>>> 5a1968128df2bb91246fd875bf40c84c35b03eec

@@ -15,10 +15,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SFSegmentView : UIView
 
+@property (nonatomic,strong) SFSegmentConfig *config;
 @property (nonatomic,strong) NSArray *contents;
 @property (nonatomic,copy) void (^didSelectedItemBlock)(NSInteger index);
 
-- (instancetype)init NS_UNAVAILABLE;
+// 推荐
 - (instancetype)initWithConfig:(nullable SFSegmentConfig *)config frame:(CGRect)frame;
 + (instancetype)segmentViewWithConfig:(nullable SFSegmentConfig *)config frame:(CGRect)frame;
 
