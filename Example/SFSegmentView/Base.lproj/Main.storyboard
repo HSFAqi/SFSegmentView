@@ -225,7 +225,7 @@
                                     <constraint firstAttribute="trailing" secondItem="Wh5-oK-caS" secondAttribute="trailing" constant="10" id="ukH-YY-LwD"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oom-Of-8yI" customClass="SFSegmentView">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oom-Of-8yI" customClass="SFSegmentView">
                                 <rect key="frame" x="0.0" y="149" width="375" height="44"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>

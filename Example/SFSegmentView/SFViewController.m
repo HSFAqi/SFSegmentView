@@ -29,7 +29,7 @@
     self.navigationController.navigationBar.translucent = NO;
     self.navigationItem.title = @"测试";
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    self.contents = @[@"签约项目", @"护理项目", @"其他项目"];
+    self.contents = @[@"签约项目", @"护理项目", @"其他项目", @"签约项目", @"护理项目", @"其他项目"];
     self.config = [SFSegmentConfig defaultConfig];
     
     /* 代码方式创建 */
@@ -68,16 +68,6 @@
     [inputAccessoryView addSubview:goBtn];
     self.indexTextField.inputAccessoryView = inputAccessoryView;
     
-    UIImageView *iconImgView = [[UIImageView alloc]initWithFrame:CGRectMake(100, 450, 100, 100)];
-    iconImgView.contentMode = UIViewContentModeScaleAspectFit;
-    iconImgView.backgroundColor = [UIColor lightGrayColor];
-//    if (@available(iOS 13.0, *)) {
-//        iconImgView.image = [[UIImage imageNamed:@"签约项目_nor"] imageWithTintColor:[UIColor blueColor]];
-//    } else {
-//        iconImgView.tintColor = [UIColor blueColor];
-//        iconImgView.image = [[UIImage imageNamed:@"签约项目_nor"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-//    }
-    [self.view addSubview:iconImgView];
 }
 
 #pragma mark goAction

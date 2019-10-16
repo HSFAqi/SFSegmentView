@@ -15,8 +15,10 @@
     SFSegmentConfig *config = [[SFSegmentConfig alloc]init];
     
     config.contentStyle = SFSegmentContentStyleFont;
-    config.indicatorDir = SFSegmentIndicatorDirBottom;
+    config.contentAlignment = SFSegmentContentAlignmentLeft;
+    config.contentWidthStyle = SFSegmentContentWidthStyleEqual;
     config.indicatorStyle = SFSegmentIndicatorStyleNone;
+    config.indicatorDir = SFSegmentIndicatorDirBottom;
     config.defaultIndex = 0;
     config.isAnimated = NO;
     
@@ -37,8 +39,8 @@
     config.image_sel = @"_sel";
     
     // 样式三：icon
-    config.imageTintColor_nor = [UIColor lightGrayColor];
-    config.imageTintColor_sel = [UIColor blueColor];
+    config.iconTintColor_nor = [UIColor lightGrayColor];
+    config.iconTintColor_sel = [UIColor blueColor];
     
     
     

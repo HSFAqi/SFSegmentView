@@ -55,6 +55,7 @@
     if (defaultIndex < 0 || defaultIndex >= contents.count) {
         defaultIndex = 0;
     }
+    
     for (int i=0; i < contents.count; i++) {
         x = w*i;
         CGRect rect = CGRectMake(x, y, w, h);
@@ -66,7 +67,7 @@
         if (i == defaultIndex) {
             item.selected = YES;
             if (self.config.contentStyle == SFSegmentContentStyleIcon) {
-                item.tintColor = self.config.imageTintColor_sel;
+                item.tintColor = self.config.iconTintColor_sel;
             }
             self.item_cur = item;
             // indicator
@@ -102,8 +103,8 @@
             
         case SFSegmentContentStyleIcon:
             if (@available(iOS 13.0, *)) {
-                [item setImage:[[UIImage imageNamed:content] imageWithTintColor:self.config.imageTintColor_nor] forState:UIControlStateNormal];
-                [item setImage:[[UIImage imageNamed:content] imageWithTintColor:self.config.imageTintColor_sel] forState:UIControlStateSelected];
+                [item setImage:[[UIImage imageNamed:content] imageWithTintColor:self.config.iconTintColor_nor] forState:UIControlStateNormal];
+                [item setImage:[[UIImage imageNamed:content] imageWithTintColor:self.config.iconTintColor_sel] forState:UIControlStateSelected];
             } else {
                 UIImage *image = [[UIImage imageNamed:content] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
                 [item setImage:image forState:UIControlStateNormal];
@@ -342,11 +343,11 @@
 - (void)movedActionWithItem:(UIButton *)sender{
     self.item_cur.selected = NO;
     if (self.config.contentStyle == SFSegmentContentStyleIcon) {
-        self.item_cur.tintColor = self.config.imageTintColor_nor;
+        self.item_cur.tintColor = self.config.iconTintColor_nor;
     }
     sender.selected = YES;
     if (self.config.contentStyle == SFSegmentContentStyleIcon) {
-        sender.tintColor = self.config.imageTintColor_sel;
+        sender.tintColor = self.config.iconTintColor_sel;
     }
     self.item_cur = sender;
 }
