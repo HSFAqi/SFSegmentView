@@ -68,7 +68,30 @@
             
         case SFSegmentContentWidthStyleEqualMax:
         {
-            
+            if (self.config.contentStyle == SFSegmentContentStyleFont) {
+                // 找到最长的文本长度
+                CGFloat maxFontWidth = 0;
+                for (NSString *text in contents) {
+                    CGSize size = [text sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:self.config.fontSize]}];
+                    if (maxFontWidth < size.width) {
+                        maxFontWidth = size.width;
+                    }
+                }
+                maxFontWidth += 20;
+                NSInteger showNum = MIN(contents.count, self.config.maxShowNum);
+                CGFloat equalWidth = self.frame.size.width/showNum;
+                if (maxFontWidth <= equalWidth) {
+                    w = equalWidth;
+                }else{
+                    int show = (int)(self.frame.size.width/maxFontWidth);
+                    w = self.frame.size.width/show;
+                }
+                contentW = w * contents.count;
+            }else{
+                NSInteger showNum = MIN(contents.count, self.config.maxShowNum);
+                w = self.frame.size.width/showNum;
+                contentW = w * contents.count;
+            }
         }
             break;
             
