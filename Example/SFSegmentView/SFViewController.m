@@ -31,9 +31,9 @@
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     //self.contents = @[@"签约项目", @"护理项目", @"其他项目", @"签约项目", @"护理项目", @"其他项目", @"签约项目", @"护理项目", @"其他项目", @"签约项目", @"护理项目", @"其他项目"];
     //self.contents = @[@"签约项目", @"护理项目", @"其他项目"];
-    self.contents = @[@"签", @"签", @"签", @"签", @"签", @"签", @"签", @"签"];
+    self.contents = @[@"签", @"签签", @"签签签", @"签签签签", @"签签签签签", @"签签签签签签", @"签签签签签签签", @"签签签签签签签签", @"签签签签签签签签签"];
     self.config = [SFSegmentConfig defaultConfig];
-    self.config.contentWidthStyle = SFSegmentContentWidthStyleEqualMax;
+    self.config.contentWidthStyle = SFSegmentContentWidthStyleAuto;
     /* 代码方式创建 */
     // 方式1：
 //    self.segmentView = [[SFSegmentView alloc]initWithFrame:CGRectMake(0, 30, self.view.frame.size.width, 44)];

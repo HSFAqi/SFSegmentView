@@ -27,16 +27,11 @@
 
 
 #pragma mark initializer
-- (instancetype)init{
-    if (self = [super init]) {
-        self.showsVerticalScrollIndicator = NO;
-        self.showsHorizontalScrollIndicator = NO;
-    }
-    return self;
-}
 - (instancetype)initWithConfig:(nullable SFSegmentConfig *)config frame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
         self.config = config?config:[SFSegmentConfig defaultConfig];
+        self.showsVerticalScrollIndicator = NO;
+        self.showsHorizontalScrollIndicator = NO;
     }
     return self;
 }
@@ -53,8 +48,9 @@
         [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     }
     // 添加items
-    CGFloat x = 0.f;
-    CGFloat y = 0.f;
+    CGFloat x = 0;
+    CGFloat y = 0;
+    // 确定item宽度
     CGFloat w = 0;
     CGFloat contentW = 0;
     switch (self.config.contentWidthStyle) {
@@ -106,7 +102,7 @@
     }
     
     CGFloat h = self.frame.size.height;
-    self.contentSize = CGSizeMake(contentW, h);
+    
     
     NSInteger defaultIndex = self.config.defaultIndex;
     if (defaultIndex < 0 || defaultIndex >= contents.count) {
@@ -114,7 +110,46 @@
     }
     
     for (int i=0; i < contents.count; i++) {
-        x = w*i;
+        // 确定item的x
+        switch (self.config.contentWidthStyle) {
+            case SFSegmentContentWidthStyleEqual:
+            {
+                x = w*i;
+            }
+                break;
+                
+            case SFSegmentContentWidthStyleEqualMax:
+            {
+                x = w*i;
+            }
+                break;
+                
+            case SFSegmentContentWidthStyleAuto:
+            {
+                if (self.config.contentStyle == SFSegmentContentStyleFont){
+                    NSString *content = contents[i];
+                    CGSize size = [content sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:self.config.fontSize]}];
+                    w = size.width+20;
+                    if (i == 0) {
+                        x += 0;
+                    }else{
+                        NSString *content_pre = contents[i-1];
+                        CGSize size_pre = [content_pre sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:self.config.fontSize]}];
+                        x += (size_pre.width+20);
+                        if (i == contents.count-1) {
+                            contentW = x+w;
+                        }
+                    }
+                }else{
+                    x = w*i;
+                }
+            }
+                break;
+                
+            default:
+                break;
+        }
+        
         CGRect rect = CGRectMake(x, y, w, h);
         NSString *content = contents[i];
         UIButton *item = [self createCustomItemWithFrame:rect content:content];
@@ -139,6 +174,7 @@
             [self createSeparatorWithX:separatorX];
         }
     }
+    self.contentSize = CGSizeMake(contentW, h);
 }
 #pragma mark item
 - (UIButton *)createCustomItemWithFrame:(CGRect)frame content:(NSString *)content{
