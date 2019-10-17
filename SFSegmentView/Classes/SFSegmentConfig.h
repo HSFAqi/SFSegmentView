@@ -25,7 +25,8 @@ typedef NS_ENUM(NSInteger, SFSegmentContentStyle) {
  * 内容宽度样式
  */
 typedef NS_ENUM(NSInteger, SFSegmentContentWidthStyle) {
-    SFSegmentContentWidthStyleEqual = 0,  // 等宽，取最长的文本宽度
+    SFSegmentContentWidthStyleEqual = 0,  // 等宽，根据maxShowNum而定
+    SFSegmentContentWidthStyleEqualMax,   // 等宽，取最长的文本宽度
     SFSegmentContentWidthStyleAuto        // 根据文本自动计算宽度
 };
 
@@ -64,6 +65,8 @@ typedef NS_ENUM(NSInteger, SFSegmentIndicatorDir) {
 @property (nonatomic,assign) SFSegmentContentAlignment contentAlignment;
 /** 内容宽度样式 */
 @property (nonatomic,assign) SFSegmentContentWidthStyle contentWidthStyle;
+/** 一屏最多显示item个数，默认6个（此属性只针对SFSegmentContentWidthStyleEqual有效） */
+@property (nonatomic,assign) NSInteger maxShowNum;
 /** 指示器样式 */
 @property (nonatomic,assign) SFSegmentIndicatorStyle indicatorStyle;
 /** 指示器方向 */

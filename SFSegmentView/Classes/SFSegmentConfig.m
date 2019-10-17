@@ -17,15 +17,19 @@
     config.contentStyle = SFSegmentContentStyleFont;
     config.contentAlignment = SFSegmentContentAlignmentLeft;
     config.contentWidthStyle = SFSegmentContentWidthStyleEqual;
+    config.maxShowNum = 6;
     config.indicatorStyle = SFSegmentIndicatorStyleNone;
     config.indicatorDir = SFSegmentIndicatorDirBottom;
     config.defaultIndex = 0;
     config.isAnimated = NO;
     
+    
+    
     /* ----------------分割线（默认值）---------------- */
     config.isHaveSeparator = NO;
     config.separatorColor = [UIColor colorWithRed:197/255.f green:197/255.f blue:201/255.f alpha:1];
     config.separatorHeight = 30;
+    
     
     
     /* ----------------内容样式（默认值）---------------- */

@@ -28,6 +28,13 @@
 
 
 #pragma mark initializer
+- (instancetype)init{
+    if (self = [super init]) {
+        self.showsVerticalScrollIndicator = NO;
+        self.showsHorizontalScrollIndicator = NO;
+    }
+    return self;
+}
 - (instancetype)initWithConfig:(nullable SFSegmentConfig *)config frame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
         self.config = config?config:[SFSegmentConfig defaultConfig];
@@ -49,8 +56,36 @@
     // 添加items
     CGFloat x = 0.f;
     CGFloat y = 0.f;
-    CGFloat w = self.frame.size.width/contents.count;
+    CGFloat w = 0;
+    CGFloat contentW = 0;
+    switch (self.config.contentWidthStyle) {
+        case SFSegmentContentWidthStyleEqual:
+        {
+            NSInteger showNum = MIN(contents.count, self.config.maxShowNum);
+            w = self.frame.size.width/showNum;
+            contentW = w * contents.count;
+        }
+            break;
+            
+        case SFSegmentContentWidthStyleEqualMax:
+        {
+            
+        }
+            break;
+            
+        case SFSegmentContentWidthStyleAuto:
+        {
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
     CGFloat h = self.frame.size.height;
+    self.contentSize = CGSizeMake(contentW, h);
+    
     NSInteger defaultIndex = self.config.defaultIndex;
     if (defaultIndex < 0 || defaultIndex >= contents.count) {
         defaultIndex = 0;

@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SFSegmentView : UIView
+@interface SFSegmentView : UIScrollView
 
 /** 样式配置 */
 @property (nonatomic,strong) SFSegmentConfig *config;
