@@ -8,7 +8,6 @@
 
 #import "SFSegmentView.h"
 
-#import <Masonry/Masonry.h>
 #import "SFSegmentConfig.h"
 #define kSeparatorWidth 1
 #define kTagAdding 100
@@ -121,8 +120,9 @@
 #pragma mark item
 - (UIButton *)createCustomItemWithFrame:(CGRect)frame content:(NSString *)content{
     UIButton *item = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self addSubview:item];
+    item.frame = frame;
     item.backgroundColor = [UIColor clearColor];
+    [self addSubview:item];
     switch (self.config.contentStyle) {
         case SFSegmentContentStyleFont:
             [item setTitle:content forState:UIControlStateNormal];
@@ -150,25 +150,15 @@
         default:
             break;
     }
-    // 布局
-    [item mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self).offset(frame.origin.y);
-        make.left.equalTo(self).offset(frame.origin.x);
-        make.size.mas_equalTo(frame.size);
-    }];
     return item;
 }
 
 #pragma mark separator
 - (void)createSeparatorWithX:(CGFloat)x{
     UIView *separator = [[UIView alloc]init];
-    [self addSubview:separator];
+    separator.frame = CGRectMake(x, (self.frame.size.height - self.config.separatorHeight)/2, kSeparatorWidth, self.config.separatorHeight);
     separator.backgroundColor = self.config.separatorColor;
-    [separator mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self).offset(x);
-        make.centerY.equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(kSeparatorWidth, self.config.separatorHeight));
-    }];
+    [self addSubview:separator];
 }
 
 #pragma mark indicatorStyle
@@ -205,62 +195,51 @@
 - (void)lineStyleWithItem:(UIButton *)item{
     self.line = [[UIView alloc]init];
     self.line.backgroundColor = self.config.lineColor;
+    self.line.frame = CGRectMake(0, 0, self.config.lineSize.width, self.config.lineSize.height);
+    switch (self.config.indicatorDir) {
+        case SFSegmentIndicatorDirBottom:
+            self.line.center = CGPointMake(item.center.x, self.frame.size.height-self.config.lineSize.height/2);
+            break;
+        case SFSegmentIndicatorDirTop:
+            self.line.center = CGPointMake(item.center.x, self.config.lineSize.height/2);
+            break;
+        default:
+            break;
+    }
     [self addSubview:self.line];
-    __weak UIButton *item_weak = item;
-    [self.line mas_makeConstraints:^(MASConstraintMaker *make) {
-        switch (self.config.indicatorDir) {
-            case SFSegmentIndicatorDirBottom:
-                make.bottom.equalTo(self);
-                break;
-            case SFSegmentIndicatorDirTop:
-                make.top.equalTo(self);
-                break;
-            default:
-                break;
-        }
-        make.centerX.equalTo(item_weak);
-        make.size.mas_equalTo(self.config.lineSize);
-    }];
 }
 // 样式三：square
 - (void)squareStyleWithItem:(UIButton *)item{
     self.square = [[UIView alloc]init];
     self.square.backgroundColor = self.config.squareColor;
+    self.square.frame = CGRectMake(item.frame.origin.x+self.config.squareEdgeInsert.left,
+                                   item.frame.origin.y+self.config.squareEdgeInsert.top,
+                                   item.frame.size.width-(self.config.squareEdgeInsert.left+self.config.squareEdgeInsert.right),
+                                   item.frame.size.height-(self.config.squareEdgeInsert.top+self.config.squareEdgeInsert.bottom));
     [self addSubview:self.square];
     [self sendSubviewToBack:self.square];
     if (self.config.squareCornerRadius > 0) {
         self.square.layer.masksToBounds = YES;
         self.square.layer.cornerRadius = self.config.squareCornerRadius;
     }
-    __weak UIButton *item_weak = item;
-    [self.square mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(item_weak).offset(self.config.squareEdgeInsert.top);
-        make.left.equalTo(item_weak).offset(self.config.squareEdgeInsert.left);
-        make.bottom.equalTo(item_weak).offset(-self.config.squareEdgeInsert.bottom);
-        make.right.equalTo(item_weak).offset(-self.config.squareEdgeInsert.right);
-    }];
 }
 // 样式四：arrow
 - (void)arrowStyleWithItem:(UIButton *)item{
     self.arrow = [[UIView alloc]init];
     self.arrow.backgroundColor = self.config.arrowColor;
+    self.arrow.frame = CGRectMake(0, 0, self.config.arrowSize.width, self.config.arrowSize.height);
+    switch (self.config.indicatorDir) {
+        case SFSegmentIndicatorDirBottom:
+            self.arrow.center = CGPointMake(item.center.x, self.frame.size.height-self.config.arrowSize.height/2);
+            break;
+        case SFSegmentIndicatorDirTop:
+            self.arrow.center = CGPointMake(item.center.x, self.config.arrowSize.height/2);
+            break;
+        default:
+            break;
+    }
     [self addSubview:self.arrow];
     [self drawArrow];
-    __weak UIButton *item_weak = item;
-    [self.arrow mas_makeConstraints:^(MASConstraintMaker *make) {
-        switch (self.config.indicatorDir) {
-            case SFSegmentIndicatorDirBottom:
-                make.bottom.equalTo(self);
-                break;
-            case SFSegmentIndicatorDirTop:
-                make.top.equalTo(self);
-                break;
-            default:
-                break;
-        }
-        make.centerX.equalTo(item_weak);
-        make.size.mas_equalTo(self.config.arrowSize);
-    }];
 }
 // 画三角
 - (void)drawArrow{
@@ -300,23 +279,19 @@
 - (void)dotStyleWithItem:(UIButton *)item{
     self.dot = [[UIView alloc]init];
     self.dot.backgroundColor = self.config.dotColor;
+    self.dot.frame = CGRectMake(0, 0, self.config.dotSize.width, self.config.dotSize.height);
+    switch (self.config.indicatorDir) {
+        case SFSegmentIndicatorDirBottom:
+            self.dot.center = CGPointMake(item.center.x, self.frame.size.height-self.config.dotSize.height/2);
+            break;
+        case SFSegmentIndicatorDirTop:
+            self.dot.center = CGPointMake(item.center.x, self.config.dotSize.height/2);
+            break;
+        default:
+            break;
+    }
     [self addSubview:self.dot];
     [self drawDot];
-    __weak UIButton *item_weak = item;
-    [self.dot mas_makeConstraints:^(MASConstraintMaker *make) {
-        switch (self.config.indicatorDir) {
-            case SFSegmentIndicatorDirBottom:
-                make.bottom.equalTo(self);
-                break;
-            case SFSegmentIndicatorDirTop:
-                make.top.equalTo(self);
-                break;
-            default:
-                break;
-        }
-        make.centerX.equalTo(item_weak);
-        make.size.mas_equalTo(self.config.dotSize);
-    }];
 }
 // 画圆
 - (void)drawDot{

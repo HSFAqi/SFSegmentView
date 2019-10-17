@@ -29,8 +29,8 @@
     self.navigationController.navigationBar.translucent = NO;
     self.navigationItem.title = @"测试";
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    //self.contents = @[@"签约项目", @"护理项目", @"其他项目", @"签约项目", @"护理项目", @"其他项目", @"签约项目", @"护理项目", @"其他项目", @"签约项目", @"护理项目", @"其他项目"];
-    self.contents = @[@"签约项目", @"护理项目", @"其他项目"];
+    self.contents = @[@"签约项目", @"护理项目", @"其他项目", @"签约项目", @"护理项目", @"其他项目", @"签约项目", @"护理项目", @"其他项目", @"签约项目", @"护理项目", @"其他项目"];
+    //self.contents = @[@"签约项目", @"护理项目", @"其他项目"];
     self.config = [SFSegmentConfig defaultConfig];
     
     /* 代码方式创建 */
