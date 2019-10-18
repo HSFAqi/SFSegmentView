@@ -417,6 +417,27 @@
         CGFloat centerY = indicator.center.y;
         indicator.center = CGPointMake(sender.center.x, centerY);
     }
+    // content的移动
+    CGPoint contentOffset = self.contentOffset;
+    CGFloat x_mid = self.frame.size.width/2;
+    if (sender.center.x <= x_mid) {
+        self.contentOffset = CGPointMake(0, contentOffset.y);;
+    }
+    else if ((sender.center.x > x_mid) && (sender.center.x < (self.contentSize.width - x_mid))) {
+        CGFloat detaX = 0;
+        // 向前移动
+        if (self.item_cur.tag < sender.tag) {
+            detaX = sender.center.x - x_mid;
+            self.contentOffset = CGPointMake(detaX, contentOffset.y);
+        }
+        // 向后移动
+        else if (self.item_cur.tag > sender.tag) {
+            detaX = x_mid + contentOffset.x - sender.center.x;
+            self.contentOffset = CGPointMake(contentOffset.x-detaX, contentOffset.y);
+        }
+    }else{
+        self.contentOffset = CGPointMake((self.contentSize.width - x_mid*2), contentOffset.y);;
+    }
 }
 // 移动结束时
 - (void)movedActionWithItem:(UIButton *)sender{
