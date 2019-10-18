@@ -66,17 +66,18 @@
         [item setTag:i+kTagAdding];
         [item addTarget:self action:@selector(itemAction:) forControlEvents:UIControlEventTouchUpInside];
         if (i == defaultIndex) {
-            item.selected = YES;
-            if (self.config.contentStyle == SFSegmentContentStyleIcon) {
-                item.tintColor = self.config.iconTintColor_sel;
-            }
-            self.item_cur = item;
-            // indicator
+            [self itemAction:item];
             [self createCustomIndicatorStyleWithItem:item];
-            // 默认选中的回调
-            if (self.didSelectedItemBlock) {
-                self.didSelectedItemBlock(item.tag-kTagAdding);
-            }
+//            item.selected = YES;
+//            if (self.config.contentStyle == SFSegmentContentStyleIcon) {
+//                item.tintColor = self.config.iconTintColor_sel;
+//            }
+//            self.item_cur = item;
+//
+//            // 默认选中的回调
+//            if (self.didSelectedItemBlock) {
+//                self.didSelectedItemBlock(item.tag-kTagAdding);
+//            }
         }
         if (self.config.isHaveSeparator && (i != 0)) {
             CGFloat separatorX = x-kSeparatorWidth/2;
@@ -139,10 +140,13 @@
 }
 - (CGFloat)calculateItemAutoWidthWithContents:(NSArray *)contents index:(NSInteger)index{
     CGFloat itemWidth = 0;
-    if (self.config.contentWidthStyle == SFSegmentContentWidthStyleAuto) {
+    if ((self.config.contentWidthStyle == SFSegmentContentWidthStyleAuto) && (self.config.contentStyle == SFSegmentContentStyleFont)) {
         NSString *content = contents[index];
         CGSize size = [content sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:self.config.fontSize]}];
         itemWidth = size.width+20;
+    }else{
+        NSInteger showNum = MIN(contents.count, self.config.maxShowNum);
+        itemWidth = self.frame.size.width/showNum;
     }
     return itemWidth;
 }
@@ -251,14 +255,14 @@
             
         case SFSegmentIndicatorStyleDot:
             [self dotStyleWithItem:item];
-            break;
+            
         default:
             break;
     }
 }
 // 样式一：none
 - (void)noneStyleWithItem:(UIButton *)item{
-    
+    //nothing
 }
 // 样式二：line
 - (void)lineStyleWithItem:(UIButton *)item{
@@ -395,6 +399,10 @@
 - (void)movingActionWithItem:(UIButton *)sender{
     UIView *indicator;
     switch (self.config.indicatorStyle) {
+        case SFSegmentIndicatorStyleNone:
+            //nothing
+            break;
+            
         case SFSegmentIndicatorStyleLine:
             indicator = self.line;
             break;
@@ -410,6 +418,7 @@
         case SFSegmentIndicatorStyleDot:
             indicator = self.dot;
             break;
+            
         default:
             break;
     }
@@ -437,6 +446,11 @@
         }
     }else{
         self.contentOffset = CGPointMake((self.contentSize.width - x_mid*2), contentOffset.y);;
+    }
+    // 缩放
+    if (self.config.scale != 1.0) {
+        self.item_cur.transform = CGAffineTransformIdentity;
+        sender.transform = CGAffineTransformMakeScale(self.config.scale, self.config.scale);
     }
 }
 // 移动结束时

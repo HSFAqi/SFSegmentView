@@ -22,6 +22,7 @@
     config.indicatorDir = SFSegmentIndicatorDirBottom;
     config.defaultIndex = 0;
     config.isAnimated = NO;
+    config.scale = 1.0;
     
     
     
@@ -67,6 +68,9 @@
     // 样式五：dot
     config.dotColor = [UIColor redColor];
     config.dotSize = CGSizeMake(6, 6);
+    
+    
+    
     
     
     return config;

@@ -47,7 +47,7 @@ typedef NS_ENUM(NSInteger, SFSegmentIndicatorStyle) {
     SFSegmentIndicatorStyleLine,
     SFSegmentIndicatorStyleSquare,
     SFSegmentIndicatorStyleArrow,
-    SFSegmentIndicatorStyleDot
+    SFSegmentIndicatorStyleDot,
 };
 // 指示器方向
 typedef NS_ENUM(NSInteger, SFSegmentIndicatorDir) {
@@ -81,7 +81,8 @@ typedef NS_ENUM(NSInteger, SFSegmentIndicatorDir) {
 @property (nonatomic,strong) UIColor *separatorColor;
 /** 分割线高度 */
 @property (nonatomic,assign) CGFloat separatorHeight;
-
+/** 缩放比例，默认1.0*/
+@property (nonatomic,assign) double scale;
 
 
 // MARK: - 内容样式相关属性
@@ -146,6 +147,10 @@ typedef NS_ENUM(NSInteger, SFSegmentIndicatorDir) {
 @property (nonatomic,strong) UIColor *dotColor;
 /** 指示器（dot）大小 */
 @property (nonatomic,assign) CGSize dotSize;
+
+
+
+
 
 
 // MARK: - 默认配置
