@@ -26,7 +26,7 @@
 @implementation SFSegmentView
 
 
-#pragma mark initializer
+// MARK: - initializer
 - (instancetype)initWithConfig:(nullable SFSegmentConfig *)config frame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
         self.config = config?config:[SFSegmentConfig defaultConfig];
@@ -40,7 +40,7 @@
     return selectView;
 }
 
-#pragma mark setter
+// MARK: - setter
 - (void)setContents:(NSArray *)contents{
     _contents = contents;
     // 清空
@@ -50,106 +50,15 @@
     // 添加items
     CGFloat x = 0;
     CGFloat y = 0;
-    // 确定item宽度
-    CGFloat w = 0;
-    CGFloat contentW = 0;
-    switch (self.config.contentWidthStyle) {
-        case SFSegmentContentWidthStyleEqual:
-        {
-            NSInteger showNum = MIN(contents.count, self.config.maxShowNum);
-            w = self.frame.size.width/showNum;
-            contentW = w * contents.count;
-        }
-            break;
-            
-        case SFSegmentContentWidthStyleEqualMax:
-        {
-            if (self.config.contentStyle == SFSegmentContentStyleFont) {
-                // 找到最长的文本长度
-                CGFloat maxFontWidth = 0;
-                for (NSString *text in contents) {
-                    CGSize size = [text sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:self.config.fontSize]}];
-                    if (maxFontWidth < size.width) {
-                        maxFontWidth = size.width;
-                    }
-                }
-                maxFontWidth += 20;
-                NSInteger showNum = MIN(contents.count, self.config.maxShowNum);
-                CGFloat equalWidth = self.frame.size.width/showNum;
-                if (maxFontWidth <= equalWidth) {
-                    w = equalWidth;
-                }else{
-                    int show = (int)(self.frame.size.width/maxFontWidth);
-                    w = self.frame.size.width/show;
-                }
-                contentW = w * contents.count;
-            }else{
-                NSInteger showNum = MIN(contents.count, self.config.maxShowNum);
-                w = self.frame.size.width/showNum;
-                contentW = w * contents.count;
-            }
-        }
-            break;
-            
-        case SFSegmentContentWidthStyleAuto:
-        {
-            
-        }
-            break;
-            
-        default:
-            break;
-    }
-    
+    CGFloat w = [self calculateItemEqualWidthWithContents:contents];
     CGFloat h = self.frame.size.height;
-    
-    
     NSInteger defaultIndex = self.config.defaultIndex;
     if (defaultIndex < 0 || defaultIndex >= contents.count) {
         defaultIndex = 0;
     }
-    
     for (int i=0; i < contents.count; i++) {
-        // 确定item的x
-        switch (self.config.contentWidthStyle) {
-            case SFSegmentContentWidthStyleEqual:
-            {
-                x = w*i;
-            }
-                break;
-                
-            case SFSegmentContentWidthStyleEqualMax:
-            {
-                x = w*i;
-            }
-                break;
-                
-            case SFSegmentContentWidthStyleAuto:
-            {
-                if (self.config.contentStyle == SFSegmentContentStyleFont){
-                    NSString *content = contents[i];
-                    CGSize size = [content sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:self.config.fontSize]}];
-                    w = size.width+20;
-                    if (i == 0) {
-                        x += 0;
-                    }else{
-                        NSString *content_pre = contents[i-1];
-                        CGSize size_pre = [content_pre sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:self.config.fontSize]}];
-                        x += (size_pre.width+20);
-                        if (i == contents.count-1) {
-                            contentW = x+w;
-                        }
-                    }
-                }else{
-                    x = w*i;
-                }
-            }
-                break;
-                
-            default:
-                break;
-        }
-        
+        w = [self calculateItemAutoWidthWithContents:contents index:i];
+        x = [self calculateItemX:x contents:contents itemWidth:w index:i];
         CGRect rect = CGRectMake(x, y, w, h);
         NSString *content = contents[i];
         UIButton *item = [self createCustomItemWithFrame:rect content:content];
@@ -173,10 +82,111 @@
             CGFloat separatorX = x-kSeparatorWidth/2;
             [self createSeparatorWithX:separatorX];
         }
+        if (i == contents.count-1) {
+            self.contentSize = CGSizeMake(x+w, h);
+        }
     }
-    self.contentSize = CGSizeMake(contentW, h);
 }
-#pragma mark item
+
+// MARK: - frame 相关计算
+// 计算itemWidth
+- (CGFloat)calculateItemEqualWidthWithContents:(NSArray *)contents{
+    CGFloat itemWidth = 0;
+    switch (self.config.contentWidthStyle) {
+        case SFSegmentContentWidthStyleEqual:
+        {
+            NSInteger showNum = MIN(contents.count, self.config.maxShowNum);
+            itemWidth = self.frame.size.width/showNum;
+        }
+            break;
+            
+        case SFSegmentContentWidthStyleEqualMax:
+        {
+            if (self.config.contentStyle == SFSegmentContentStyleFont) {
+                CGFloat maxFontWidth = 0;
+                for (NSString *text in contents) {
+                    CGSize size = [text sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:self.config.fontSize]}];
+                    if (maxFontWidth < size.width) {
+                        maxFontWidth = size.width;
+                    }
+                }
+                maxFontWidth += 20;
+                NSInteger showNum = MIN(contents.count, self.config.maxShowNum);
+                CGFloat equalWidth = self.frame.size.width/showNum;
+                if (maxFontWidth <= equalWidth) {
+                    itemWidth = equalWidth;
+                }else{
+                    int show = (int)(self.frame.size.width/maxFontWidth);
+                    itemWidth = self.frame.size.width/show;
+                }
+            }else{
+                NSInteger showNum = MIN(contents.count, self.config.maxShowNum);
+                itemWidth = self.frame.size.width/showNum;
+            }
+        }
+            break;
+            
+        case SFSegmentContentWidthStyleAuto:
+        {
+            // 请看calculateItemAutoWidthWithContents:index:
+        }
+            break;
+            
+        default:
+            break;
+    }
+    return itemWidth;
+}
+- (CGFloat)calculateItemAutoWidthWithContents:(NSArray *)contents index:(NSInteger)index{
+    CGFloat itemWidth = 0;
+    if (self.config.contentWidthStyle == SFSegmentContentWidthStyleAuto) {
+        NSString *content = contents[index];
+        CGSize size = [content sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:self.config.fontSize]}];
+        itemWidth = size.width+20;
+    }
+    return itemWidth;
+}
+
+// 计算itemX
+- (CGFloat)calculateItemX:(CGFloat)x contents:(NSArray *)contents itemWidth:(CGFloat)itemWidth index:(NSInteger)index{
+    switch (self.config.contentWidthStyle) {
+        case SFSegmentContentWidthStyleEqual:
+        {
+            x = itemWidth * index;
+        }
+            break;
+            
+        case SFSegmentContentWidthStyleEqualMax:
+        {
+            x = itemWidth * index;
+        }
+            break;
+            
+        case SFSegmentContentWidthStyleAuto:
+        {
+            if (self.config.contentStyle == SFSegmentContentStyleFont){
+                CGFloat itemWidth_pre = 0;
+                if (index == 0) {
+                    itemWidth_pre = 0;
+                }else{
+                    NSString *content_pre = contents[index-1];
+                    CGSize size_pre = [content_pre sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:self.config.fontSize]}];
+                    itemWidth_pre = (size_pre.width+20);
+                }
+                x += itemWidth_pre;
+            }else{
+                x = itemWidth * index;
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
+    return x;
+}
+
+// MARK: - item
 - (UIButton *)createCustomItemWithFrame:(CGRect)frame content:(NSString *)content{
     UIButton *item = [UIButton buttonWithType:UIButtonTypeCustom];
     item.frame = frame;
@@ -212,7 +222,7 @@
     return item;
 }
 
-#pragma mark separator
+// MARK: - separator
 - (void)createSeparatorWithX:(CGFloat)x{
     UIView *separator = [[UIView alloc]init];
     separator.frame = CGRectMake(x, (self.frame.size.height - self.config.separatorHeight)/2, kSeparatorWidth, self.config.separatorHeight);
@@ -220,7 +230,7 @@
     [self addSubview:separator];
 }
 
-#pragma mark indicatorStyle
+// MARK: - indicatorStyle
 - (void)createCustomIndicatorStyleWithItem:(UIButton *)item{
     switch (self.config.indicatorStyle) {
         case SFSegmentIndicatorStyleNone:
@@ -362,7 +372,7 @@
     self.dot.layer.mask = maskLayer;
 }
 
-#pragma mark Actions
+// MARK: - Actions
 - (void)itemAction:(UIButton *)sender{
     if (self.config.isAnimated) {
         typeof(self) weakSelf = self;
@@ -421,7 +431,7 @@
     self.item_cur = sender;
 }
 
-#pragma mark move action
+// MARK: - move action
 // 向前移动
 - (void)moveForward{
     NSInteger curIndx = self.item_cur.tag;
@@ -452,7 +462,7 @@
 
 
 
-#pragma mark lazy load
+// MARK: - lazy load
 - (SFSegmentConfig *)config{
     if (!_config) {
         _config = [SFSegmentConfig defaultConfig];
