@@ -9,15 +9,24 @@
 #import "SFViewController.h"
 
 #import <SFSegmentView/SFSegmentView.h>
+#import "SFContentVC.h"
+#import "SFIndicatorVC.h"
+#import "SFOtherVC.h"
 
 @interface SFViewController ()<UITextFieldDelegate>
 
 @property (nonatomic,strong) NSArray *contents;
 @property (nonatomic,strong) SFSegmentConfig *config;
 @property (nonatomic,strong) SFSegmentView *segmentView;
-
-@property (weak, nonatomic) IBOutlet UITextField *indexTextField;
 @property (weak, nonatomic) IBOutlet SFSegmentView *xibSegmentView;
+
+@property (nonatomic,strong) UIScrollView *scrollView;
+@property (nonatomic,strong) SFSegmentView *settingSegmentView;
+@property (nonatomic,strong) SFContentVC *contentVC;
+@property (nonatomic,strong) SFIndicatorVC *indicatorVC;
+@property (nonatomic,strong) SFOtherVC *otherVC;
+
+
 
 @end
 
@@ -29,13 +38,8 @@
     self.navigationController.navigationBar.translucent = NO;
     self.navigationItem.title = @"测试";
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    self.contents = @[@"签约项目", @"护理项目", @"其他项目", @"签约项目", @"护理项目", @"其他项目", @"签约项目", @"护理项目", @"其他项目", @"签约项目", @"护理项目", @"其他项目"];
-    //self.contents = @[@"签约项目", @"护理项目", @"其他项目"];
-    //self.contents = @[@"签", @"签签", @"签签签", @"签签签签", @"签签签签签", @"签签签签签签", @"签签签签签签签", @"签签签签签签签签", @"签签签签签签签签签"];
-    //self.contents = @[@"签", @"签签", @"签签签"];
     self.config = [SFSegmentConfig defaultConfig];
-    self.config.contentWidthStyle = SFSegmentContentWidthStyleAuto;
-    self.config.scale = 1.2;
+    self.contents = @[@"签约项目", @"护理项目", @"其他项目", @"签约项目", @"护理项目", @"其他项目", @"签约项目", @"护理项目", @"其他项目", @"签约项目", @"护理项目", @"其他项目"];
     /* 代码方式创建 */
     // 方式1：
 //    self.segmentView = [[SFSegmentView alloc]initWithFrame:CGRectMake(0, 30, self.view.frame.size.width, 44)];
@@ -50,161 +54,82 @@
     self.segmentView.backgroundColor = [UIColor whiteColor];
     self.segmentView.contents = self.contents;
     [self.view addSubview:self.segmentView];
-    typeof(self) weakSelf = self;
-    self.segmentView.didSelectedItemBlock = ^(NSInteger index) {
-        weakSelf.indexTextField.text = [NSString stringWithFormat:@"%ld",(long)index];
-    };
+
     
     /* XIB方式创建 */
     self.xibSegmentView.config = self.config;
     self.xibSegmentView.contents = self.contents;
     
     
-    // 键盘
-    self.indexTextField.delegate = self;
-    UIView *inputAccessoryView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
-    inputAccessoryView.backgroundColor = [UIColor whiteColor];
-    UIButton *goBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [goBtn setTitle:@"GO" forState:UIControlStateNormal];
-    [goBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    [goBtn addTarget:self action:@selector(goAction) forControlEvents:UIControlEventTouchUpInside];
-    goBtn.frame = CGRectMake(self.view.frame.size.width-100, 0, 100, 40);
-    [inputAccessoryView addSubview:goBtn];
-    self.indexTextField.inputAccessoryView = inputAccessoryView;
+    [self setting];
+}
+
+- (void)setting{
+    CGFloat topHeight = [UIApplication sharedApplication].statusBarFrame.size.height+44;
+    CGFloat viewHeight = self.view.frame.size.height-topHeight;
     
+    self.scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 210, self.view.frame.size.width, viewHeight-210)];
+    self.scrollView.backgroundColor = [UIColor whiteColor];
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width*3, self.scrollView.frame.size.height);
+    self.scrollView.pagingEnabled = YES;
+    [self.view addSubview:self.scrollView];
+    
+    typeof(self) weakSelf = self;
+    
+    self.contentVC = [[SFContentVC alloc]init];
+    self.contentVC.config = self.config;
+    self.contentVC.view.frame = CGRectMake(0, 0, self.scrollView.frame.size.width, self.scrollView.frame.size.height);
+    [self addChildViewController:self.contentVC];
+    [self.scrollView addSubview:self.contentVC.view];
+    self.contentVC.changedBlock = ^(SFSegmentConfig * _Nonnull config) {
+        [weakSelf changedAction:config];
+    };
+    
+    self.indicatorVC = [[SFIndicatorVC alloc]init];
+    self.indicatorVC.config = self.config;
+    self.indicatorVC.view.frame = CGRectMake(self.scrollView.frame.size.width, 0, self.scrollView.frame.size.width, self.scrollView.frame.size.height);
+    [self addChildViewController:self.indicatorVC];
+    [self.scrollView addSubview:self.indicatorVC.view];
+    self.indicatorVC.changedBlock = ^(SFSegmentConfig * _Nonnull config) {
+        [weakSelf changedAction:config];
+    };
+    
+    self.otherVC = [[SFOtherVC alloc]init];
+    self.otherVC.config = self.config;
+    self.otherVC.view.frame = CGRectMake(self.scrollView.frame.size.width*2, 0, self.scrollView.frame.size.width, self.scrollView.frame.size.height);
+    [self addChildViewController:self.otherVC];
+    [self.scrollView addSubview:self.otherVC.view];
+    self.otherVC.changedBlock = ^(SFSegmentConfig * _Nonnull config) {
+        [weakSelf changedAction:config];
+    };
+    
+    
+    
+    
+    SFSegmentConfig *config = [SFSegmentConfig defaultConfig];
+    config.isHaveSeparator = YES;
+    config.separatorHeight = 20;
+    self.settingSegmentView = [[SFSegmentView alloc]initWithConfig:config frame:CGRectMake(20, viewHeight-60, self.view.frame.size.width-40, 40)];
+    self.settingSegmentView.contents = @[@"内容", @"指示器", @"其他"];
+    self.settingSegmentView.backgroundColor = [UIColor whiteColor];
+    self.settingSegmentView.clipsToBounds = NO;
+    self.settingSegmentView.layer.cornerRadius = 20;
+    self.settingSegmentView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    self.settingSegmentView.layer.borderWidth = 1;
+    self.settingSegmentView.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.settingSegmentView.layer.shadowOffset = CGSizeMake(4, 4);
+    self.settingSegmentView.layer.shadowOpacity = 0.3;
+    [self.view addSubview:self.settingSegmentView];
+    
+    self.settingSegmentView.didSelectedItemBlock = ^(NSInteger index) {
+        [weakSelf.scrollView setContentOffset:CGPointMake(self.scrollView.frame.size.width*index, 0) animated:YES];
+    };
 }
-
-#pragma mark goAction
--(void)goAction{
-    [self.indexTextField resignFirstResponder];
-    [self.segmentView moveTo:self.indexTextField.text.integerValue];
-    [self.xibSegmentView moveTo:self.indexTextField.text.integerValue];
-}
-
-#pragma mark action
-// 内容样式
-- (IBAction)changeContentStyle:(UISegmentedControl *)sender {
-    switch (sender.selectedSegmentIndex) {
-        case 0:
-            self.config.contentStyle = SFSegmentContentStyleFont;
-            break;
-            
-        case 1:
-            self.config.contentStyle = SFSegmentContentStyleImage;
-            break;
-            
-        case 2:
-            self.config.contentStyle = SFSegmentContentStyleIcon;
-            break;
-            
-        default:
-            break;
-    }
-    [self reload];
-}
-// 指示器样式
-- (IBAction)changeIndicatorStyle:(UISegmentedControl *)sender {
-    switch (sender.selectedSegmentIndex) {
-        case 0:
-            self.config.indicatorStyle = SFSegmentIndicatorStyleNone;
-            break;
-            
-        case 1:
-            self.config.indicatorStyle = SFSegmentIndicatorStyleLine;
-            break;
-            
-        case 2:
-            self.config.indicatorStyle = SFSegmentIndicatorStyleSquare;
-            break;
-                
-            
-        case 3:
-            self.config.indicatorStyle = SFSegmentIndicatorStyleArrow;
-            break;
-            
-        case 4:
-            self.config.indicatorStyle = SFSegmentIndicatorStyleDot;
-            break;
-            
-        default:
-            break;
-    }
-    [self reload];
-}
-//指示器方向
-- (IBAction)changeIndicatorDir:(UISegmentedControl *)sender {
-    switch (sender.selectedSegmentIndex) {
-        case 0:
-            self.config.indicatorDir = SFSegmentIndicatorDirBottom;
-            break;
-            
-        case 1:
-            self.config.indicatorDir = SFSegmentIndicatorDirTop;
-            break;
-            
-        default:
-            break;
-    }
-    [self reload];
-}
-//指示器动画
-- (IBAction)changeIndecatorAnimation:(UISegmentedControl *)sender {
-    switch (sender.selectedSegmentIndex) {
-        case 0:
-            self.config.isAnimated = NO;
-            break;
-            
-        case 1:
-            self.config.isAnimated = YES;
-            break;
-            
-        default:
-            break;
-    }
-    [self reload];
-}
-//分割线
-- (IBAction)changeSeparator:(UISegmentedControl *)sender {
-    switch (sender.selectedSegmentIndex) {
-        case 0:
-            self.config.isHaveSeparator = NO;
-            break;
-            
-        case 1:
-            self.config.isHaveSeparator = YES;
-            break;
-            
-        default:
-            break;
-    }
-    [self reload];
-}
-//移动
-- (IBAction)moveAction:(UIButton *)sender {
-    switch (sender.tag) {
-        case 0:
-            [self.segmentView moveBackward];
-            [self.xibSegmentView moveBackward];
-            break;
-            
-        case 1:
-            [self.segmentView moveForward];
-            [self.xibSegmentView moveForward];
-            break;
-            
-        default:
-            break;
-    }
-}
-
-#pragma mark reload
-- (void)reload{
+- (void)changedAction:(SFSegmentConfig *)config{
+    self.config = config;
     self.segmentView.contents = self.contents;
     self.xibSegmentView.contents = self.contents;
 }
-
-
-#pragma mark UITextFieldDelegate
 
 
 

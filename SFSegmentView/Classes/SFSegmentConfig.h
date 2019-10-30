@@ -65,7 +65,9 @@ typedef NS_ENUM(NSInteger, SFSegmentIndicatorDir) {
 @property (nonatomic,assign) SFSegmentContentAlignment contentAlignment;
 /** 内容宽度样式 */
 @property (nonatomic,assign) SFSegmentContentWidthStyle contentWidthStyle;
-/** 一屏最多显示item个数，默认6个（此属性只针对SFSegmentContentWidthStyleEqual有效） */
+/** 一屏最多显示item个数，默认6个
+ *  此属性只针对SFSegmentContentWidthStyleEqual/SFSegmentContentWidthStyleEqualMax有效
+ */
 @property (nonatomic,assign) NSInteger maxShowNum;
 /** 指示器样式 */
 @property (nonatomic,assign) SFSegmentIndicatorStyle indicatorStyle;

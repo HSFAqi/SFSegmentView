@@ -68,16 +68,6 @@
         if (i == defaultIndex) {
             [self itemAction:item];
             [self createCustomIndicatorStyleWithItem:item];
-//            item.selected = YES;
-//            if (self.config.contentStyle == SFSegmentContentStyleIcon) {
-//                item.tintColor = self.config.iconTintColor_sel;
-//            }
-//            self.item_cur = item;
-//
-//            // 默认选中的回调
-//            if (self.didSelectedItemBlock) {
-//                self.didSelectedItemBlock(item.tag-kTagAdding);
-//            }
         }
         if (self.config.isHaveSeparator && (i != 0)) {
             CGFloat separatorX = x-kSeparatorWidth/2;
@@ -434,13 +424,11 @@
     }
     else if ((sender.center.x > x_mid) && (sender.center.x < (self.contentSize.width - x_mid))) {
         CGFloat detaX = 0;
-        // 向前移动
-        if (self.item_cur.tag < sender.tag) {
+        if (self.item_cur.tag < sender.tag) {// 向前移动
             detaX = sender.center.x - x_mid;
             self.contentOffset = CGPointMake(detaX, contentOffset.y);
         }
-        // 向后移动
-        else if (self.item_cur.tag > sender.tag) {
+        else if (self.item_cur.tag > sender.tag) {// 向后移动
             detaX = x_mid + contentOffset.x - sender.center.x;
             self.contentOffset = CGPointMake(contentOffset.x-detaX, contentOffset.y);
         }
@@ -493,8 +481,6 @@
         [self itemAction:item];
     }
 }
-
-
 
 
 // MARK: - lazy load

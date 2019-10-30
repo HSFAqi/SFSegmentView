@@ -8,6 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		0483BDE73A033BE60C5906FB /* Pods_SFSegmentView_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EEE147643AC9FAF1FC555FE /* Pods_SFSegmentView_Tests.framework */; };
+		5132470F235B1AAB00B8D3A8 /* SFIndicatorVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5132470E235B1AAB00B8D3A8 /* SFIndicatorVC.m */; };
+		51324712235B1ABF00B8D3A8 /* SFContentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 51324711235B1ABF00B8D3A8 /* SFContentVC.m */; };
+		51324715235B1AF200B8D3A8 /* SFOtherVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 51324714235B1AF200B8D3A8 /* SFOtherVC.m */; };
+		5132471F235B1B4700B8D3A8 /* SFTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5132471D235B1B4700B8D3A8 /* SFTextFieldCell.m */; };
+		51324720235B1B4700B8D3A8 /* SFTextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5132471E235B1B4700B8D3A8 /* SFTextFieldCell.xib */; };
+		51324724235B1B5D00B8D3A8 /* SFSegmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 51324722235B1B5D00B8D3A8 /* SFSegmentCell.m */; };
+		51324725235B1B5D00B8D3A8 /* SFSegmentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51324723235B1B5D00B8D3A8 /* SFSegmentCell.xib */; };
+		51324729235C008A00B8D3A8 /* SFModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 51324728235C008A00B8D3A8 /* SFModel.m */; };
+		5132472D235C068600B8D3A8 /* SFColorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5132472B235C068600B8D3A8 /* SFColorCell.m */; };
+		5132472E235C068600B8D3A8 /* SFColorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5132472C235C068600B8D3A8 /* SFColorCell.xib */; };
+		51324732235C264700B8D3A8 /* SFTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 51324730235C264700B8D3A8 /* SFTextCell.m */; };
+		51324733235C264700B8D3A8 /* SFTextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51324731235C264700B8D3A8 /* SFTextCell.xib */; };
 		51BB7985235317A400CB7F1F /* 录屏.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 51BB7984235317A400CB7F1F /* 录屏.mp4 */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
@@ -40,6 +52,26 @@
 /* Begin PBXFileReference section */
 		1EEE147643AC9FAF1FC555FE /* Pods_SFSegmentView_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SFSegmentView_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		40433CB79AC19002A7243B7F /* Pods-SFSegmentView_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SFSegmentView_Example.debug.xcconfig"; path = "Target Support Files/Pods-SFSegmentView_Example/Pods-SFSegmentView_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		5132470D235B1AAB00B8D3A8 /* SFIndicatorVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFIndicatorVC.h; sourceTree = "<group>"; };
+		5132470E235B1AAB00B8D3A8 /* SFIndicatorVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFIndicatorVC.m; sourceTree = "<group>"; };
+		51324710235B1ABF00B8D3A8 /* SFContentVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFContentVC.h; sourceTree = "<group>"; };
+		51324711235B1ABF00B8D3A8 /* SFContentVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFContentVC.m; sourceTree = "<group>"; };
+		51324713235B1AF200B8D3A8 /* SFOtherVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFOtherVC.h; sourceTree = "<group>"; };
+		51324714235B1AF200B8D3A8 /* SFOtherVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFOtherVC.m; sourceTree = "<group>"; };
+		5132471C235B1B4700B8D3A8 /* SFTextFieldCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFTextFieldCell.h; sourceTree = "<group>"; };
+		5132471D235B1B4700B8D3A8 /* SFTextFieldCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFTextFieldCell.m; sourceTree = "<group>"; };
+		5132471E235B1B4700B8D3A8 /* SFTextFieldCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SFTextFieldCell.xib; sourceTree = "<group>"; };
+		51324721235B1B5D00B8D3A8 /* SFSegmentCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSegmentCell.h; sourceTree = "<group>"; };
+		51324722235B1B5D00B8D3A8 /* SFSegmentCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSegmentCell.m; sourceTree = "<group>"; };
+		51324723235B1B5D00B8D3A8 /* SFSegmentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SFSegmentCell.xib; sourceTree = "<group>"; };
+		51324727235C008A00B8D3A8 /* SFModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFModel.h; sourceTree = "<group>"; };
+		51324728235C008A00B8D3A8 /* SFModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFModel.m; sourceTree = "<group>"; };
+		5132472A235C068600B8D3A8 /* SFColorCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFColorCell.h; sourceTree = "<group>"; };
+		5132472B235C068600B8D3A8 /* SFColorCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFColorCell.m; sourceTree = "<group>"; };
+		5132472C235C068600B8D3A8 /* SFColorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SFColorCell.xib; sourceTree = "<group>"; };
+		5132472F235C264700B8D3A8 /* SFTextCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFTextCell.h; sourceTree = "<group>"; };
+		51324730235C264700B8D3A8 /* SFTextCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFTextCell.m; sourceTree = "<group>"; };
+		51324731235C264700B8D3A8 /* SFTextCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SFTextCell.xib; sourceTree = "<group>"; };
 		51BB7984235317A400CB7F1F /* 录屏.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "录屏.mp4"; sourceTree = "<group>"; };
 		5FEEB9A96D7603E3E6FEE303 /* Pods-SFSegmentView_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SFSegmentView_Tests.debug.xcconfig"; path = "Target Support Files/Pods-SFSegmentView_Tests/Pods-SFSegmentView_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* SFSegmentView_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SFSegmentView_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,6 +129,49 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5132470C235B1A8F00B8D3A8 /* setting */ = {
+			isa = PBXGroup;
+			children = (
+				51324710235B1ABF00B8D3A8 /* SFContentVC.h */,
+				51324711235B1ABF00B8D3A8 /* SFContentVC.m */,
+				5132470D235B1AAB00B8D3A8 /* SFIndicatorVC.h */,
+				5132470E235B1AAB00B8D3A8 /* SFIndicatorVC.m */,
+				51324713235B1AF200B8D3A8 /* SFOtherVC.h */,
+				51324714235B1AF200B8D3A8 /* SFOtherVC.m */,
+				51324726235C007200B8D3A8 /* model */,
+				51324716235B1AFB00B8D3A8 /* cells */,
+			);
+			name = setting;
+			sourceTree = "<group>";
+		};
+		51324716235B1AFB00B8D3A8 /* cells */ = {
+			isa = PBXGroup;
+			children = (
+				51324721235B1B5D00B8D3A8 /* SFSegmentCell.h */,
+				51324722235B1B5D00B8D3A8 /* SFSegmentCell.m */,
+				51324723235B1B5D00B8D3A8 /* SFSegmentCell.xib */,
+				5132471C235B1B4700B8D3A8 /* SFTextFieldCell.h */,
+				5132471D235B1B4700B8D3A8 /* SFTextFieldCell.m */,
+				5132471E235B1B4700B8D3A8 /* SFTextFieldCell.xib */,
+				5132472A235C068600B8D3A8 /* SFColorCell.h */,
+				5132472B235C068600B8D3A8 /* SFColorCell.m */,
+				5132472C235C068600B8D3A8 /* SFColorCell.xib */,
+				5132472F235C264700B8D3A8 /* SFTextCell.h */,
+				51324730235C264700B8D3A8 /* SFTextCell.m */,
+				51324731235C264700B8D3A8 /* SFTextCell.xib */,
+			);
+			name = cells;
+			sourceTree = "<group>";
+		};
+		51324726235C007200B8D3A8 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				51324727235C008A00B8D3A8 /* SFModel.h */,
+				51324728235C008A00B8D3A8 /* SFModel.m */,
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +214,7 @@
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F5A5195388D20070C39A /* SFViewController.h */,
 				6003F5A6195388D20070C39A /* SFViewController.m */,
+				5132470C235B1A8F00B8D3A8 /* setting */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
@@ -281,9 +357,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5132472E235C068600B8D3A8 /* SFColorCell.xib in Resources */,
+				51324720235B1B4700B8D3A8 /* SFTextFieldCell.xib in Resources */,
 				51BB7985235317A400CB7F1F /* 录屏.mp4 in Resources */,
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
+				51324725235B1B5D00B8D3A8 /* SFSegmentCell.xib in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
+				51324733235C264700B8D3A8 /* SFTextCell.xib in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 			);
@@ -392,6 +472,14 @@
 				6003F59E195388D20070C39A /* SFAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* SFViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				5132470F235B1AAB00B8D3A8 /* SFIndicatorVC.m in Sources */,
+				51324715235B1AF200B8D3A8 /* SFOtherVC.m in Sources */,
+				5132471F235B1B4700B8D3A8 /* SFTextFieldCell.m in Sources */,
+				51324732235C264700B8D3A8 /* SFTextCell.m in Sources */,
+				51324729235C008A00B8D3A8 /* SFModel.m in Sources */,
+				51324724235B1B5D00B8D3A8 /* SFSegmentCell.m in Sources */,
+				5132472D235C068600B8D3A8 /* SFColorCell.m in Sources */,
+				51324712235B1ABF00B8D3A8 /* SFContentVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

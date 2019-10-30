@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="77" id="KGk-i7-Jjw" customClass="SFSegmentCell">
+            <rect key="frame" x="0.0" y="0.0" width="361" height="77"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="361" height="77"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7sy-EV-yBr">
+                        <rect key="frame" x="10" y="10" width="23" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="（subtitle）" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R0b-JN-9d8">
+                        <rect key="frame" x="33" y="12" width="57" height="12"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                        <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="isW-Fx-EDp">
+                        <rect key="frame" x="10" y="36" width="341" height="32"/>
+                        <segments>
+                            <segment title="First"/>
+                            <segment title="Second"/>
+                        </segments>
+                        <connections>
+                            <action selector="segViewAction:" destination="KGk-i7-Jjw" eventType="valueChanged" id="att-7M-FKO"/>
+                        </connections>
+                    </segmentedControl>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="R0b-JN-9d8" firstAttribute="leading" secondItem="7sy-EV-yBr" secondAttribute="trailing" id="AjM-ZT-NdO"/>
+                    <constraint firstItem="R0b-JN-9d8" firstAttribute="centerY" secondItem="7sy-EV-yBr" secondAttribute="centerY" id="IFj-Vi-tDg"/>
+                    <constraint firstItem="isW-Fx-EDp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="SNy-rk-mMI"/>
+                    <constraint firstItem="isW-Fx-EDp" firstAttribute="top" secondItem="7sy-EV-yBr" secondAttribute="bottom" constant="10" id="Y7h-mJ-IAo"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="isW-Fx-EDp" secondAttribute="bottom" constant="10" id="ZP9-S3-cn2"/>
+                    <constraint firstItem="7sy-EV-yBr" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="nlC-nQ-lK9"/>
+                    <constraint firstAttribute="trailing" secondItem="isW-Fx-EDp" secondAttribute="trailing" constant="10" id="np4-QH-5BX"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="R0b-JN-9d8" secondAttribute="trailing" constant="10" id="pTr-7W-zI4"/>
+                    <constraint firstItem="7sy-EV-yBr" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="uyp-no-Mdp"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
+            <connections>
+                <outlet property="subtitleLabel" destination="R0b-JN-9d8" id="tcc-AP-Oet"/>
+                <outlet property="titleLabel" destination="7sy-EV-yBr" id="Xla-d7-yXy"/>
+                <outlet property="valueSegView" destination="isW-Fx-EDp" id="pUC-DT-m0a"/>
+            </connections>
+            <point key="canvasLocation" x="167.39130434782609" y="153.01339285714286"/>
+        </tableViewCell>
+    </objects>
+</document>

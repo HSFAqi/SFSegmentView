@@ -1,7 +1,7 @@
 {
   "name": "SFSegmentView",
-  "version": "0.1.0",
-  "summary": "选项卡，试试你就知道！",
+  "version": "0.1.1",
+  "summary": "添加几种常见的样式",
   "description": "TODO: Add long description of the pod here.",
   "homepage": "https://github.com/HSFAqi/SFSegmentView",
   "license": {
@@ -13,15 +13,10 @@
   },
   "source": {
     "git": "https://github.com/HSFAqi/SFSegmentView.git",
-    "tag": "0.1.0"
+    "tag": "0.1.1"
   },
   "platforms": {
     "ios": "8.0"
   },
-  "source_files": "SFSegmentView/Classes/**/*",
-  "dependencies": {
-    "Masonry": [
-      "~> 1.1.0"
-    ]
-  }
+  "source_files": "SFSegmentView/Classes/**/*"
 }

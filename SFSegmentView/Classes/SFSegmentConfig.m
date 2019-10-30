@@ -17,7 +17,7 @@
     config.contentStyle = SFSegmentContentStyleFont;
     config.contentAlignment = SFSegmentContentAlignmentLeft;
     config.contentWidthStyle = SFSegmentContentWidthStyleEqual;
-    config.maxShowNum = 6;
+    config.maxShowNum = 4;
     config.indicatorStyle = SFSegmentIndicatorStyleNone;
     config.indicatorDir = SFSegmentIndicatorDirBottom;
     config.defaultIndex = 0;
